@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -12,7 +14,7 @@ android {
     }
     defaultConfig {
         applicationId "com.teamnoyes.majorparksinseoul"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"

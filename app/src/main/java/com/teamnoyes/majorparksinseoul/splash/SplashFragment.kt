@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.teamnoyes.majorparksinseoul.R
 import com.teamnoyes.majorparksinseoul.databinding.SplashFragmentBinding
 
@@ -30,6 +32,18 @@ class SplashFragment : Fragment() {
         splashViewModelFactory = SplashViewModelFactory(application)
         splashViewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
 
+        splashViewModel.timer.observe(viewLifecycleOwner, Observer {
+            if (it){
+                moveToMain()
+            }
+        })
+
+        splashViewModel.setTimer()
+
+    }
+
+    private fun moveToMain(){
+        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToMainFragment())
     }
 
 }
