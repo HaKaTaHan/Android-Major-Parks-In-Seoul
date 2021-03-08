@@ -22,16 +22,15 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         splashFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.splash_fragment, container, false)
-
+        val application = requireNotNull(this.activity).application
+        splashViewModelFactory = SplashViewModelFactory(application)
         return splashFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val application = requireNotNull(this.activity).application
-        splashViewModelFactory = SplashViewModelFactory(application)
-        splashViewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
 
+        splashViewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
         splashViewModel.timer.observe(viewLifecycleOwner, Observer {
             if (it){
                 moveToMain()

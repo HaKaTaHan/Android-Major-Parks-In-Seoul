@@ -19,5 +19,22 @@
         android:id="@+id/mainFragment"
         android:name="com.teamnoyes.majorparksinseoul.main.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_parklistFragment"
+            app:destination="@id/parklistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/parksFragment"
+        android:name="com.teamnoyes.majorparksinseoul.main.parks.ParksFragment"
+        android:label="ParksFragment" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.teamnoyes.majorparksinseoul.main.bookmark.BookmarkFragment"
+        android:label="BookmarkFragment" />
+    <fragment
+        android:id="@+id/parklistFragment"
+        android:name="com.teamnoyes.majorparksinseoul.main.parks.parklist.ParklistFragment"
+        android:label="parklist_fragment"
+        tools:layout="@layout/parklist_fragment" />
 </navigation>
