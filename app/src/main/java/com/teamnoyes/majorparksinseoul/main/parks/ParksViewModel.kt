@@ -25,12 +25,9 @@ class ParksViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 val regionJson = JSONObject(json)
-                println("-------------------")
                 val list = mutableListOf<ModelParks>()
-                for ((idx, key) in regionJson.keys().withIndex()){
-                    println(regionJson[key])
+                for ((idx, key) in regionJson.keys().withIndex())
                     list.add(ModelParks(regionJson[key].toString(), idx))
-                }
 
                 _loadRegion.value = list
             }

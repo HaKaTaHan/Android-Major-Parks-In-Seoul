@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MajorParksInSeoul</string>
+    <string name="check_network">네트워크에 연결 후 다시 시도해주세요</string>
 </resources>

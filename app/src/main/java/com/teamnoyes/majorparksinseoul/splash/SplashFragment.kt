@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.teamnoyes.majorparksinseoul.R
 import com.teamnoyes.majorparksinseoul.databinding.SplashFragmentBinding
+import com.teamnoyes.majorparksinseoul.utils.NetworkState
 
 class SplashFragment : Fragment() {
     private lateinit var splashFragmentBinding: SplashFragmentBinding
@@ -31,13 +33,35 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         splashViewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
-        splashViewModel.timer.observe(viewLifecycleOwner, Observer {
-            if (it){
-                moveToMain()
+//        splashViewModel.timer.observe(viewLifecycleOwner, Observer {
+//            if (it){
+//                moveToMain()
+//            }
+//        })
+//
+//        splashViewModel.setTimer()
+
+        splashViewModel.splashStatus.observe(viewLifecycleOwner, Observer {
+            when(it){
+                SplashStatus.SUCCESS -> {
+                    moveToMain()
+                }
+                SplashStatus.CLIENT_ERROR -> {
+
+                }
+                SplashStatus.SERVER_ERROR -> {
+
+                }
             }
         })
 
-        splashViewModel.setTimer()
+        if (NetworkState.state){
+            splashViewModel.getParksData()
+        }
+        else{
+            Toast.makeText(context, "네트워크에 연결 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
+            activity?.finish()
+        }
 
     }
 

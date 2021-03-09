@@ -6,6 +6,10 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def seoulApiKey = properties.getProperty('seoul.api.key')
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -19,6 +23,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "SEOUL_API_KEY", seoulApiKey)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

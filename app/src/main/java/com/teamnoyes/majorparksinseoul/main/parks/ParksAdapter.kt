@@ -14,6 +14,7 @@ import com.teamnoyes.majorparksinseoul.databinding.ParksFragmentBinding
 import com.teamnoyes.majorparksinseoul.databinding.ParksItemBinding
 import com.teamnoyes.majorparksinseoul.datamodel.ModelParks
 import com.teamnoyes.majorparksinseoul.main.MainFragmentDirections
+import com.teamnoyes.majorparksinseoul.utils.NetworkState
 
 class ParksAdapter(): ListAdapter<ModelParks, ParksAdapter.ParksViewHolder>(ParksDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParksViewHolder {
@@ -29,7 +30,12 @@ class ParksAdapter(): ListAdapter<ModelParks, ParksAdapter.ParksViewHolder>(Park
 
         init {
             binding.btnParksItem.setOnClickListener {
-                it.findNavController().navigate(MainFragmentDirections.actionMainFragmentToParklistFragment())
+                if (NetworkState.state){
+                    it.findNavController().navigate(MainFragmentDirections.actionMainFragmentToParklistFragment(binding.btnParksItem.text.toString()))
+                }
+                else{
+                    Toast.makeText(it.context, it.context.getString(R.string.check_network), Toast.LENGTH_SHORT).show()
+                }
             }
         }
         fun bind(item: ModelParks){

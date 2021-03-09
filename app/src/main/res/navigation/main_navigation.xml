@@ -36,5 +36,9 @@
         android:id="@+id/parklistFragment"
         android:name="com.teamnoyes.majorparksinseoul.main.parks.parklist.ParklistFragment"
         android:label="parklist_fragment"
-        tools:layout="@layout/parklist_fragment" />
+        tools:layout="@layout/parklist_fragment" >
+        <argument
+            android:name="regionName"
+            app:argType="string" />
+    </fragment>
 </navigation>
