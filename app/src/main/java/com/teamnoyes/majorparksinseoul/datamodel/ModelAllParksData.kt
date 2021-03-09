@@ -16,12 +16,13 @@ data class ModelAllParkDataInfo(
     val VISIT_ROAD: String,
     val USE_REFER: String,
     val P_IMG: String,
+    val P_ZONE: String,
     val P_ADDR: String,
     val P_NAME: String,
     val P_ADMINTEL: String,
-    val G_LONGITUDE: Double,
-    val G_LATITUDE: Double,
-    val LONGITUDE: Double,
-    val LATITUDE: Double,
+    val G_LONGITUDE: String,//G_LONGITUDE ~ LATITUDE 빈 문자열 주는 경우가 있음
+    val G_LATITUDE: String,
+    val LONGITUDE: String,
+    val LATITUDE: String,
     val TEMPLATE_URL: String
 )

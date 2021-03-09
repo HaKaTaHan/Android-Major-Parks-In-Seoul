@@ -33,13 +33,6 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         splashViewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
-//        splashViewModel.timer.observe(viewLifecycleOwner, Observer {
-//            if (it){
-//                moveToMain()
-//            }
-//        })
-//
-//        splashViewModel.setTimer()
 
         splashViewModel.splashStatus.observe(viewLifecycleOwner, Observer {
             when(it){
@@ -50,18 +43,22 @@ class SplashFragment : Fragment() {
 
                 }
                 SplashStatus.SERVER_ERROR -> {
-
+                    Toast.makeText(context, "잠시 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
+                    activity?.finish()
                 }
             }
         })
 
-        if (NetworkState.state){
-            splashViewModel.getParksData()
-        }
-        else{
-            Toast.makeText(context, "네트워크에 연결 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
-            activity?.finish()
-        }
+        splashViewModel.getParksData()
+
+//        NetworkState가 init 콜백이 필요해보임
+//        if (NetworkState.state){
+//            splashViewModel.getParksData()
+//        }
+//        else{
+//            Toast.makeText(context, "네트워크에 연결 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
+//            activity?.finish()
+//        }
 
     }
 
