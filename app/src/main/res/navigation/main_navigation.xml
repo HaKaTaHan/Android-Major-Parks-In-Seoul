@@ -40,5 +40,20 @@
         <argument
             android:name="regionName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_parklistFragment_to_detailParkFragment"
+            app:destination="@id/detailParkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailParkFragment"
+        android:name="com.teamnoyes.majorparksinseoul.main.parks.parklist.detailpark.DetailParkFragment"
+        android:label="detail_park_fragment"
+        tools:layout="@layout/detail_park_fragment" >
+        <argument
+            android:name="regionName"
+            app:argType="string" />
+        <argument
+            android:name="pIdx"
+            app:argType="integer" />
     </fragment>
 </navigation>

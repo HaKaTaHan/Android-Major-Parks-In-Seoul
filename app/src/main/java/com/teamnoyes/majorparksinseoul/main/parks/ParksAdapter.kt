@@ -25,19 +25,21 @@ class ParksAdapter: ListAdapter<ModelParks, ParksAdapter.ParksViewHolder>(ParksD
 
     class ParksViewHolder private constructor(val binding: ParksItemBinding): RecyclerView.ViewHolder(binding.root){
 
-        init {
-            binding.btnParksItem.setOnClickListener {
+        fun bind(item: ModelParks){
+            moveToParklist(item)
+            binding.parksItemViewModel = item
+            binding.executePendingBindings()
+        }
+
+        private fun moveToParklist(item: ModelParks){
+            binding.cardParksitem.setOnClickListener {
                 if (NetworkState.state){
-                    it.findNavController().navigate(MainFragmentDirections.actionMainFragmentToParklistFragment(binding.btnParksItem.text.toString()))
+                    it.findNavController().navigate(MainFragmentDirections.actionMainFragmentToParklistFragment(item.name))
                 }
                 else{
                     Toast.makeText(it.context, it.context.getString(R.string.check_network), Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-        fun bind(item: ModelParks){
-            binding.parksItemViewModel = item
-            binding.executePendingBindings()
         }
 
         companion object{

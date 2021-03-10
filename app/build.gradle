@@ -9,6 +9,7 @@ plugins {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def seoulApiKey = properties.getProperty('seoul.api.key')
+def naverMapApiKey = properties.getProperty('naver.api.key')
 
 android {
     compileSdkVersion 30
@@ -23,6 +24,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [NAVER_API_KEY:naverMapApiKey]
         buildConfigField("String", "SEOUL_API_KEY", seoulApiKey)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -32,6 +34,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
         }
     }
     compileOptions {
@@ -60,6 +68,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation("com.naver.maps:map-sdk:3.11.0")
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.+'

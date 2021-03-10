@@ -1,3 +1,3 @@
 package com.teamnoyes.majorparksinseoul.datamodel
 
-data class ModelParks(val name: String, val id: Int)
+data class ModelParks(val name: String, val id: String)

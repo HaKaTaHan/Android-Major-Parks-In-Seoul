@@ -2,11 +2,15 @@ package com.teamnoyes.majorparksinseoul.main.parks.parklist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.teamnoyes.majorparksinseoul.R
 import com.teamnoyes.majorparksinseoul.databinding.ParklistItemBinding
 import com.teamnoyes.majorparksinseoul.datamodel.ModelParklist
+import com.teamnoyes.majorparksinseoul.utils.NetworkState
 
 class ParklistAdapter: ListAdapter<ModelParklist, ParklistAdapter.ParklistViewHolder>(ParklistDiffCallback()){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParklistViewHolder {
@@ -21,9 +25,22 @@ class ParklistAdapter: ListAdapter<ModelParklist, ParklistAdapter.ParklistViewHo
     class ParklistViewHolder private constructor(val binding: ParklistItemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: ModelParklist){
+            moveToDetailPark(item)
             binding.parklistItemViewModel = item
             binding.executePendingBindings()
         }
+
+        private fun moveToDetailPark(item: ModelParklist){
+            binding.cardParklist.setOnClickListener {
+                if (NetworkState.state){
+                    it.findNavController().navigate(ParklistFragmentDirections.actionParklistFragmentToDetailParkFragment(item.region, item.P_IDX))
+                }
+                else{
+                    Toast.makeText(it.context, it.context.getString(R.string.check_network), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         companion object{
             fun from(parent: ViewGroup): ParklistViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)

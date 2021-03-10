@@ -14,6 +14,8 @@ import com.teamnoyes.majorparksinseoul.databinding.ParklistFragmentBinding
 class ParklistFragment : Fragment() {
     private lateinit var parklistFragmentBinding: ParklistFragmentBinding
     private lateinit var parklistViewModel: ParklistViewModel
+    private lateinit var parklistViewModelFactory: ParkslistViewModelFactory
+
     private lateinit var adapter: ParklistAdapter
     private var regionName = ""
 
@@ -25,13 +27,15 @@ class ParklistFragment : Fragment() {
         initRecyclerView()
         regionName = arguments?.getString("regionName") ?: ""
 
+        parklistViewModelFactory = ParkslistViewModelFactory(regionName)
+
         return parklistFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parklistViewModel = ViewModelProvider(this).get(ParklistViewModel::class.java)
+        parklistViewModel = ViewModelProvider(this, parklistViewModelFactory).get(ParklistViewModel::class.java)
 
         getParkThumbnailData()
     }
@@ -43,7 +47,7 @@ class ParklistFragment : Fragment() {
             }
         })
 
-        parklistViewModel.getData(regionName)
+        parklistViewModel.getData()
     }
 
     private fun initRecyclerView(){
