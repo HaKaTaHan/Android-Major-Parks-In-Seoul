@@ -17,7 +17,13 @@ object NetworkState {
 
         override fun onLost(network: Network) {
             state = false
-            Toast.makeText(context, context.getString(R.string.check_network), Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onCapabilitiesChanged(
+            network: Network,
+            networkCapabilities: NetworkCapabilities
+        ) {
+            state = true
         }
     }
     private lateinit var context: Context

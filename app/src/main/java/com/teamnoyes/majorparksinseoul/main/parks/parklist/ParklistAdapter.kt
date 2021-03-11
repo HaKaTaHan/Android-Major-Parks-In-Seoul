@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teamnoyes.majorparksinseoul.R
 import com.teamnoyes.majorparksinseoul.databinding.ParklistItemBinding
 import com.teamnoyes.majorparksinseoul.datamodel.ModelParklist
+import com.teamnoyes.majorparksinseoul.main.MainFragmentDirections
 import com.teamnoyes.majorparksinseoul.utils.NetworkState
 
 class ParklistAdapter: ListAdapter<ModelParklist, ParklistAdapter.ParklistViewHolder>(ParklistDiffCallback()){
@@ -33,7 +34,12 @@ class ParklistAdapter: ListAdapter<ModelParklist, ParklistAdapter.ParklistViewHo
         private fun moveToDetailPark(item: ModelParklist){
             binding.cardParklist.setOnClickListener {
                 if (NetworkState.state){
-                    it.findNavController().navigate(ParklistFragmentDirections.actionParklistFragmentToDetailParkFragment(item.region, item.P_IDX))
+                    if (it.findNavController().currentDestination!!.id == R.id.parklistFragment){
+                        it.findNavController().navigate(ParklistFragmentDirections.actionParklistFragmentToDetailParkFragment(item.region, item.P_IDX))
+                    }
+                    else if (it.findNavController().currentDestination!!.id == R.id.mainFragment){
+                        it.findNavController().navigate(MainFragmentDirections.actionMainFragmentToDetailParkFragment(item.region, item.P_IDX))
+                    }
                 }
                 else{
                     Toast.makeText(it.context, it.context.getString(R.string.check_network), Toast.LENGTH_SHORT).show()

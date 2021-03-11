@@ -18,6 +18,7 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.teamnoyes.majorparksinseoul.BuildConfig
 import com.teamnoyes.majorparksinseoul.R
+import com.teamnoyes.majorparksinseoul.database.BookmarkDatabase
 import com.teamnoyes.majorparksinseoul.databinding.DetailParkFragmentBinding
 
 class DetailParkFragment : Fragment(), OnMapReadyCallback {
@@ -33,10 +34,11 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
 
         detailParkFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.detail_park_fragment, container, false)
 
-        //regionName, pIdx 값 없으면 이거 오류처리 각
         regionName = arguments?.getString("regionName") ?: ""
         pIdx = arguments?.getInt("pIdx") ?: 0
-        detailParkViewModelFactory = DetailParkViewModelFactory(regionName, pIdx)
+        val application = requireNotNull(this.activity).application
+        val dataSource = BookmarkDatabase.getInstance(application).bookmarkDatabaseDao
+        detailParkViewModelFactory = DetailParkViewModelFactory(regionName, pIdx, dataSource)
 
         initToolbar()
         initNaverMap()
@@ -48,6 +50,7 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         detailParkViewModel = ViewModelProvider(this, detailParkViewModelFactory).get(DetailParkViewModel::class.java)
         detailParkFragmentBinding.detailParkViewModel = detailParkViewModel
+        initStar()
         controlNaverMapVisible()
 
         detailParkViewModel.loadData()
@@ -59,20 +62,49 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
             findNavController().navigateUp()
         }
 
-        //bookmark db에 있으면 like 아니면 default
-        detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
+//        //bookmark db에 있으면 like 아니면 default
+//        detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
+//        detailParkFragmentBinding.toolbarDetailpark.setOnMenuItemClickListener {
+//            when(it.itemId){
+//                R.id.detailPark_default -> {
+//                    detailParkFragmentBinding.toolbarDetailpark.menu.clear()
+//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_like_item)
+//                    // db에 저장
+//                    true
+//                }
+//                R.id.detailPark_like -> {
+//                    detailParkFragmentBinding.toolbarDetailpark.menu.clear()
+//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
+//                    //db에서 제거
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
+    }
+
+    private fun initStar(){
+        detailParkViewModel.bookmarkStar.observe(viewLifecycleOwner, Observer {
+            if (it == null){
+                detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
+            }
+            else{
+                detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_like_item)
+            }
+        })
+
         detailParkFragmentBinding.toolbarDetailpark.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.detailPark_default -> {
                     detailParkFragmentBinding.toolbarDetailpark.menu.clear()
-                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_like_item)
-                    // db에 저장
+//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_like_item)
+                    detailParkViewModel.likeStar()
                     true
                 }
                 R.id.detailPark_like -> {
                     detailParkFragmentBinding.toolbarDetailpark.menu.clear()
-                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
-                    //db에서 제거
+//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
+                    detailParkViewModel.defaultStar()
                     true
                 }
                 else -> false

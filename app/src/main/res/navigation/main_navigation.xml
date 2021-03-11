@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_mainFragment_to_parklistFragment"
             app:destination="@id/parklistFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailParkFragment"
+            app:destination="@id/detailParkFragment" />
     </fragment>
     <fragment
         android:id="@+id/parksFragment"

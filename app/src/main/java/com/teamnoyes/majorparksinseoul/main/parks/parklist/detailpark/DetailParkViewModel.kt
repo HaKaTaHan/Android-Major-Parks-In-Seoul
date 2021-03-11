@@ -3,10 +3,15 @@ package com.teamnoyes.majorparksinseoul.main.parks.parklist.detailpark
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.teamnoyes.majorparksinseoul.database.Bookmark
+import com.teamnoyes.majorparksinseoul.database.BookmarkDatabase
+import com.teamnoyes.majorparksinseoul.database.BookmarkDatabaseDao
 import com.teamnoyes.majorparksinseoul.datamodel.ModelAllParkDataInfo
 import com.teamnoyes.majorparksinseoul.utils.ParksData
+import kotlinx.coroutines.launch
 
-class DetailParkViewModel(private val region: String, private val pIdx: Int) : ViewModel() {
+class DetailParkViewModel(private val region: String, private val pIdx: Int, private val database: BookmarkDatabaseDao) : ViewModel() {
     private val _regionName = MutableLiveData<String>()
     val regionName: LiveData<String>
         get() = _regionName
@@ -59,13 +64,21 @@ class DetailParkViewModel(private val region: String, private val pIdx: Int) : V
     val visible: LiveData<Boolean>
         get() = _visible
 
+    private val _bookmarkStar = MutableLiveData<Bookmark>()
+    val bookmarkStar: LiveData<Bookmark>
+        get() = _bookmarkStar
+
+    init {
+        initializeBookmarkStar()
+    }
+
     fun loadData(){
         val dataList = ParksData.getData(region)
 
         for (data in dataList)
             if (data.P_IDX == pIdx){
-                println(data)
                 setData(data)
+                break
             }
     }
 
@@ -85,5 +98,54 @@ class DetailParkViewModel(private val region: String, private val pIdx: Int) : V
             _pos.value = Pair(data.LATITUDE.toDouble(), data.LONGITUDE.toDouble())
         else
             _visible.value = true
+    }
+
+    private fun initializeBookmarkStar(){
+        viewModelScope.launch {
+            _bookmarkStar.value = getBookmarkFromDatabase()
+        }
+    }
+
+    private suspend fun getBookmarkFromDatabase(): Bookmark?{
+        var bookmark = database.getBookmark(pIdx)
+        if (bookmark == null){
+            bookmark = null
+        }
+        return bookmark
+    }
+
+    private suspend fun insert(star: Bookmark){
+        database.insert(star)
+    }
+
+    fun likeStar(){
+        viewModelScope.launch {
+            val dataList = ParksData.getData(region)
+
+            for (item in dataList)
+                if (item.P_IDX == pIdx){
+                    val star = Bookmark(item.P_IDX, item.P_PARK, item.P_LIST_CONTENT, item.AREA,
+                        item.OPEN_DT, item.MAIN_EQUIP, item.MAIN_PLANTS, item.GUIDANCE, item.VISIT_ROAD, item.USE_REFER,
+                        item.P_IMG, item.P_ZONE, item.P_ADDR, item.P_NAME, item.P_ADMINTEL, item.G_LONGITUDE, item.G_LATITUDE,
+                        item.LONGITUDE, item.LATITUDE, item.TEMPLATE_URL, region)
+
+                    insert(star)
+                    break
+                }
+
+            _bookmarkStar.value = getBookmarkFromDatabase()
+        }
+    }
+
+    private suspend fun delete(key: Int){
+        database.deleteBookmark(key)
+    }
+
+    fun defaultStar(){
+        viewModelScope.launch {
+            delete(pIdx)
+
+            _bookmarkStar.value = getBookmarkFromDatabase()
+        }
     }
 }

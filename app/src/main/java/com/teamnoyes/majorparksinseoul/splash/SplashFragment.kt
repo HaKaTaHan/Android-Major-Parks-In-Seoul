@@ -40,7 +40,7 @@ class SplashFragment : Fragment() {
                     moveToMain()
                 }
                 SplashStatus.CLIENT_ERROR -> {
-
+                    Toast.makeText(context, "현재 앱 상 오류가 있습니다.\n빠른 시일 내에 고치겠습니다.", Toast.LENGTH_SHORT).show()
                 }
                 SplashStatus.SERVER_ERROR -> {
                     Toast.makeText(context, "잠시 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
@@ -50,15 +50,6 @@ class SplashFragment : Fragment() {
         })
 
         splashViewModel.getParksData()
-
-//        NetworkState가 init 콜백이 필요해보임
-//        if (NetworkState.state){
-//            splashViewModel.getParksData()
-//        }
-//        else{
-//            Toast.makeText(context, "네트워크에 연결 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
-//            activity?.finish()
-//        }
 
     }
 

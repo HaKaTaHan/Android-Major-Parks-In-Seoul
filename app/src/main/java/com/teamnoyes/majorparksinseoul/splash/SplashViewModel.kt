@@ -35,7 +35,31 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
                     _splashStatus.value = SplashStatus.SUCCESS
                 }
                 else{
-                    //오류 코드를 인터셉터로 빼보자
+                    when(data.body()!!.SearchParkInfoService.RESULT.CODE){
+                        "ERROR-300" -> {}
+                        "INFO-100" -> {}
+                        "ERROR-301" -> {}
+                        "ERROR-310" -> {}
+                        "ERROR-331" -> {}
+                        "ERROR-332" -> {}
+                        "ERROR-333" -> {}
+                        "ERROR-334" -> {}
+                        "ERROR-335" -> {}
+                        "ERROR-336" -> {}
+                        "ERROR-500" -> {
+                            _splashStatus.value = SplashStatus.SERVER_ERROR
+                            return@launch
+                        }
+                        "ERROR-600" -> {
+                            _splashStatus.value = SplashStatus.SERVER_ERROR
+                            return@launch
+                        }
+                        "ERROR-601" -> {
+                            _splashStatus.value = SplashStatus.SERVER_ERROR
+                            return@launch
+                        }
+                        "INFO-200" -> {}
+                    }
                     _splashStatus.value = SplashStatus.CLIENT_ERROR
 
                 }
