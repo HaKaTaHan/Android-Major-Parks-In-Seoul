@@ -61,26 +61,6 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
         detailParkFragmentBinding.toolbarDetailpark.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
-//        //bookmark db에 있으면 like 아니면 default
-//        detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
-//        detailParkFragmentBinding.toolbarDetailpark.setOnMenuItemClickListener {
-//            when(it.itemId){
-//                R.id.detailPark_default -> {
-//                    detailParkFragmentBinding.toolbarDetailpark.menu.clear()
-//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_like_item)
-//                    // db에 저장
-//                    true
-//                }
-//                R.id.detailPark_like -> {
-//                    detailParkFragmentBinding.toolbarDetailpark.menu.clear()
-//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
-//                    //db에서 제거
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
     }
 
     private fun initStar(){
@@ -97,13 +77,11 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
             when(it.itemId){
                 R.id.detailPark_default -> {
                     detailParkFragmentBinding.toolbarDetailpark.menu.clear()
-//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_like_item)
                     detailParkViewModel.likeStar()
                     true
                 }
                 R.id.detailPark_like -> {
                     detailParkFragmentBinding.toolbarDetailpark.menu.clear()
-//                    detailParkFragmentBinding.toolbarDetailpark.inflateMenu(R.menu.detailpark_default_item)
                     detailParkViewModel.defaultStar()
                     true
                 }

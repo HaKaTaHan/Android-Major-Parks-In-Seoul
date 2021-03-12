@@ -1,10 +1,13 @@
 package com.teamnoyes.majorparksinseoul.main
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.teamnoyes.majorparksinseoul.R
 import com.teamnoyes.majorparksinseoul.databinding.FragmentMainBinding
@@ -23,13 +26,14 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        initToolbar()
+
         return mainBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
-        initToolbar()
     }
 
     private fun initToolbar(){
@@ -37,8 +41,7 @@ class MainFragment : Fragment() {
         mainBinding.toolbarMain.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.main_info -> {
-                    //AboutUs와 OSS 넣어야 함
-                    Toast.makeText(context, "작동중", Toast.LENGTH_SHORT).show()
+                    infoAlertDialog()
                     true
                 }
                 else -> false
@@ -52,5 +55,32 @@ class MainFragment : Fragment() {
         TabLayoutMediator(mainBinding.tabsMain, mainBinding.pagerMain){tab, position ->
             tab.text = tabTexts[position]
         }.attach()
+    }
+
+    private fun infoAlertDialog(){
+        val builder = AlertDialog.Builder(context)
+
+        builder.setItems(R.array.info) { dialogInterface, pos ->
+            when(pos){
+                0 -> {
+                    showAboutMe()
+                }
+                1 -> {
+                    findNavController().navigate(MainFragmentDirections.actionMainFragmentToOssFragment())
+                }
+            }
+        }
+
+        val mainAlertDialog = builder.create()
+        mainAlertDialog.show()
+    }
+
+    private fun showAboutMe(){
+        val builder = AlertDialog.Builder(context)
+
+        builder.setView(R.layout.about_me)
+
+        val mainAlertDialog = builder.create()
+        mainAlertDialog.show()
     }
 }

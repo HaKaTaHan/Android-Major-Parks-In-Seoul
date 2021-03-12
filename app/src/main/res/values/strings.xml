@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MajorParksInSeoul</string>
     <string name="check_network">네트워크에 연결 후 다시 시도해주세요</string>
+    <string name="my_name">김정환</string>
+    <string name="email">skzmti@gmail.com</string>
+    <string-array name="info">
+        <item>About Me</item>
+        <item>오픈소스 라이선스 및 저작권</item>
+    </string-array>
 </resources>
