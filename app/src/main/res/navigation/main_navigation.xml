@@ -26,9 +26,6 @@
         <action
             android:id="@+id/action_mainFragment_to_detailParkFragment"
             app:destination="@id/detailParkFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_ossFragment"
-            app:destination="@id/ossFragment" />
     </fragment>
     <fragment
         android:id="@+id/parksFragment"
@@ -62,9 +59,4 @@
             android:name="pIdx"
             app:argType="integer" />
     </fragment>
-    <fragment
-        android:id="@+id/ossFragment"
-        android:name="com.teamnoyes.majorparksinseoul.oss.OssFragment"
-        android:label="oss_fragment"
-        tools:layout="@layout/oss_fragment" />
 </navigation>

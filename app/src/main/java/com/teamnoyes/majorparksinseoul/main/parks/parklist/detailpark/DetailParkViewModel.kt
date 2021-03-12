@@ -68,6 +68,10 @@ class DetailParkViewModel(private val region: String, private val pIdx: Int, pri
     val bookmarkStar: LiveData<Bookmark>
         get() = _bookmarkStar
 
+    private val _mapInfo = MutableLiveData<String>()
+    val mapInfo: LiveData<String>
+        get() = _mapInfo
+
     init {
         initializeBookmarkStar()
     }
@@ -98,6 +102,8 @@ class DetailParkViewModel(private val region: String, private val pIdx: Int, pri
             _pos.value = Pair(data.LATITUDE.toDouble(), data.LONGITUDE.toDouble())
         else
             _visible.value = true
+
+        _mapInfo.value = data.P_ADDR
     }
 
     private fun initializeBookmarkStar(){

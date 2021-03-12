@@ -1,5 +1,7 @@
 package com.teamnoyes.majorparksinseoul.main.parks.parklist.detailpark
 
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -52,6 +54,7 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
         detailParkFragmentBinding.detailParkViewModel = detailParkViewModel
         initStar()
         controlNaverMapVisible()
+        actionViewMap()
 
         detailParkViewModel.loadData()
     }
@@ -118,7 +121,16 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
     private fun controlNaverMapVisible(){
         detailParkViewModel.visible.observe(viewLifecycleOwner, Observer {
             if (it){
-                detailParkFragmentBinding.cardDetailparkNavermap.visibility = View.GONE
+                detailParkFragmentBinding.naverMap.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun actionViewMap(){
+        detailParkViewModel.mapInfo.observe(viewLifecycleOwner, Observer {
+            detailParkFragmentBinding.btnDetailparkSearch.setOnClickListener {view ->
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0, 0?q=$it"))
+                startActivity(intent)
             }
         })
     }

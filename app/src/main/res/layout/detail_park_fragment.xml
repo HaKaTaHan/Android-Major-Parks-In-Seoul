@@ -201,6 +201,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
                             />
+
+                        <Button
+                            android:id="@+id/btn_detailpark_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:text="@string/findLoad"/>
                     </LinearLayout>
 
 
