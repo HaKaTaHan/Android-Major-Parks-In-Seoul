@@ -1,14 +1,12 @@
 package com.teamnoyes.majorparksinseoul.main.parks.parklist.detailpark
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.databinding.DataBindingUtil
@@ -93,9 +91,11 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private lateinit var mapFragment: MapFragment
+
     private fun initNaverMap(){
         val fm = childFragmentManager
-        val mapFragment = fm.findFragmentById(R.id.naverMap) as MapFragment? ?:
+        mapFragment = fm.findFragmentById(R.id.naverMap) as MapFragment? ?:
         MapFragment.newInstance().also {
             fm.beginTransaction().add(R.id.naverMap, it).commit()
         }
@@ -103,7 +103,15 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onMapReady(naverMap: NaverMap) {
+        mapFragment.mapView!!.setOnTouchListener { view, motionEvent ->
+            when(motionEvent.action){
+                MotionEvent.ACTION_MOVE -> detailParkFragmentBinding.scrollDetailpark.requestDisallowInterceptTouchEvent(true)
+                MotionEvent.ACTION_CANCEL -> detailParkFragmentBinding.scrollDetailpark.requestDisallowInterceptTouchEvent(false)
+            }
+            mapFragment.mapView!!.onTouchEvent(motionEvent)
+        }
         moveToLocation(naverMap)
     }
 
@@ -129,8 +137,14 @@ class DetailParkFragment : Fragment(), OnMapReadyCallback {
     private fun actionViewMap(){
         detailParkViewModel.mapInfo.observe(viewLifecycleOwner, Observer {
             detailParkFragmentBinding.btnDetailparkSearch.setOnClickListener {view ->
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0, 0?q=$it"))
-                startActivity(intent)
+                if (it.first != "" && it.second != ""){
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0, 0?q=${it.first},${it.second}&z=12"))
+                    startActivity(intent)
+                }
+                else{
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0, 0?q=${it.third}&z=12"))
+                    startActivity(intent)
+                }
             }
         })
     }
