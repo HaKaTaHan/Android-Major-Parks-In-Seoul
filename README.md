@@ -1,6 +1,3 @@
-# Android-Major-Parks-In-Seoul
-
-
 # 서울시 우리 동네 공원
 <br><br>
 ![banner](https://user-images.githubusercontent.com/47181654/111105781-0d063a80-8597-11eb-99a8-6d0759db8c03.png)
