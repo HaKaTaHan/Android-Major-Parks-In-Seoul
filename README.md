@@ -1,7 +1,7 @@
-# 서울시 우리 동네 공원
+#구글 플레이스토어
 <br>
 <a href='https://play.google.com/store/apps/details?id=com.teamnoyes.majorparksinseoul'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="70" width="180"/></a>
-<br>
+# 서울시 우리 동네 공원
 <br><br>
 ![banner](https://user-images.githubusercontent.com/47181654/111105781-0d063a80-8597-11eb-99a8-6d0759db8c03.png)
 
