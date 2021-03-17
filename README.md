@@ -1,6 +1,3 @@
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Android-Major-Parks-In-Seoul)
-![GitHub last commit](https://img.shields.io/github/last-commit/Android-Major-Parks-In-Seoul)
-<br>
 <a href='https://play.google.com/store/apps/details?id=com.teamnoyes.majorparksinseoul'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="70" width="180"/></a>
 
 # 서울시 우리 동네 공원
