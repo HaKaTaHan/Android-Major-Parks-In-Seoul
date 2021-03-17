@@ -1,4 +1,6 @@
 # 서울시 우리 동네 공원
+<br>
+<a href='https://play.google.com/store/apps/details?id=com.teamnoyes.majorparksinseoul'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="70" width="180"/></a>
 <br><br>
 ![banner](https://user-images.githubusercontent.com/47181654/111105781-0d063a80-8597-11eb-99a8-6d0759db8c03.png)
 
@@ -17,8 +19,6 @@
 
 ◆ 길찾기
 * 휴대폰에 지도 어플이 있다면 해당 공원까지 길을 찾을 수 있도록 좌표를 제공합니다.
-
-◆ 현재 구글 플레이스토어 런칭 준비중입니다.
 
 # 기술 스택
 
